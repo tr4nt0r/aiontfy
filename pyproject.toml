@@ -1,0 +1,100 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+ignore = ["TRY003", "D202","D203", "D213", "D417", "ANN003", "ANN401", "E501", "COM812", "ISC001"]
+
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["aiontfy"]
+combine-as-imports = true
+split-on-trailing-comma = false
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 25
+
+[tool.ruff.lint.per-file-ignores]
+"types.py" = ["N815", "TCH003"]
+"tests/*" = ["SLF001", "S101", "ARG001"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=src/aiontfy/ --cov-report=term-missing"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope="module"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.hatch]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+source = "regex_commit"
+commit_extra_args = ["-e"]
+path = "src/aiontfy/const.py"
+
+[tool.hatch.envs.default]
+python = "3.12"
+dependencies = [
+    "mypy==1.14.1",
+    "ruff==0.8.6",
+    "pytest==8.3.4",
+    "pytest-cov==6.0.0",
+    "mkdocs-material==9.5.49",
+    "mkdocstrings[python]==0.27.0",
+    "pytest-asyncio==0.25.0",
+    "aioresponses==0.7.7",
+    "aiohttp==3.11.11",
+    "ipykernel==6.29.5",
+
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest"
+test-cov-xml = "pytest --cov-report=xml"
+lint = [
+  "ruff format .",
+  "ruff --fix .",
+  "mypy aiontfy/",
+]
+lint-check = [
+  "ruff format --check .",
+  "ruff check .",
+  "mypy src/aiontfy/",
+]
+docs-serve = "mkdocs serve"
+docs-build = "mkdocs build"
+
+[build-system]
+requires = ["hatchling", "hatch-regex-commit"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aiontfy"]
+
+[project]
+name = "aiontfy"
+authors = [
+  { name = "aiontfy", email = "manfred@dennerlein.name" }
+]
+description = "Async ntfy client library"
+readme = "README.md"
+dynamic = ["version"]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+]
+requires-python = ">=3.12"
+dependencies = [
+  "aiohttp~=3.11",
+]
+
+[project.urls]
+Documentation = "https://tr4nt0r.github.io/aiontfy/"
+Source = "https://github.com/tr4nt0r/aiontfy"
