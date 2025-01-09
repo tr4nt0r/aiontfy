@@ -1,6 +1,7 @@
 """Async ntfy client library."""
 
 from dataclasses import asdict
+from http import HTTPStatus
 from typing import Any, Self
 
 from aiohttp import ClientError, ClientSession
@@ -15,8 +16,7 @@ class Ntfy:
     """Ntfy client."""
 
     def __init__(self, url: str, session: ClientSession | None = None) -> None:
-        """
-        Initialize Ntfy client.
+        """Initialize Ntfy client.
 
         Parameters
         ----------
@@ -61,7 +61,7 @@ class Ntfy:
         try:
             async with self._session.request(method, url, **kwargs) as r:
                 data = await r.json()
-                if r.status >= 400:
+                if r.status >= HTTPStatus.BAD_REQUEST:
                     raise_http_error(**data)
                 return data
         except TimeoutError as e:
