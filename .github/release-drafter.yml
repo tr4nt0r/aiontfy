@@ -5,35 +5,34 @@ tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '💥 Breaking changes'
     labels:
-      - 'breaking'
+      - ':boom: breaking'
   - title: '✨ New Features'
     labels:
-      - 'feature'
-      - 'enhancement'
-  - title: '🐛 Bug Fixes'
+      - ':sparkles: feature'
+  - title: '👻 Bug Fixes'
     labels:
-      - 'bug'
-  - title: '⚠️ Deprecations'
+      - ':ghost: bug'
+  - title: '🗄️ Deprecations'
     labels:
-      - 'deprecation'
+      - ':file_cabinet: deprecation'
   - title: '📃 Documentation'
     labels:
-      - 'documentation'
+      - ':book: documentation'
   - title: '🧩 Dependency Updates'
     labels:
-      - 'dependencies'
-      - 'github_actions'
+      - ':recycle: dependencies'
     collapse-after: 5
   - title: '🧰 Maintenance'
     labels:
-      - 'ci'
-      - 'build'
+      - ':building_construction: build'
+      - ':construction_worker_woman: ci'
   - title: '🔬 Other updates'
     labels:
-      - 'style'
-      - 'testing'
-      - 'perfomance'
-      - 'refactor'
+      - ':nail_care: style'
+      - ':test_tube: testing'
+      - ':racing_car: performance'
+      - ':rocket: code quality'
+
 
 autolabeler:
   - label: ':sparkles: feature'
@@ -88,5 +87,3 @@ template: |
   $CHANGES
 
   Contributors: $CONTRIBUTORS
-
-  **Full Changelog**: $REPOSITORY/compare/$PREVIOUS_TAG...$NEXT_COMPLETE_VERSION
