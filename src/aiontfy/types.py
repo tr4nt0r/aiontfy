@@ -54,7 +54,6 @@ class BroadcastAction:
 
     action: str = field(default="broadcast", init=False)
     label: str
-    url: URL
     intent: str | None = None
     extras: dict[str, str] | None = None
     clear: bool = False
