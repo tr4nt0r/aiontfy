@@ -3,7 +3,8 @@ target-version = "py312"
 line-length = 88
 
 [tool.ruff.lint]
-ignore = ["TRY003", "D202","D203", "D213", "D417", "ANN003", "ANN401", "E501", "COM812", "ISC001"]
+select = ["ALL"]
+ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001"]
 
 
 [tool.ruff.lint.isort]
@@ -11,6 +12,9 @@ force-sort-within-sections = true
 known-first-party = ["aiontfy"]
 combine-as-imports = true
 split-on-trailing-comma = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.ruff.format]
 quote-style = "double"
@@ -22,6 +26,7 @@ max-complexity = 25
 [tool.ruff.lint.per-file-ignores]
 "types.py" = ["N815", "TCH003"]
 "tests/*" = ["SLF001", "S101", "ARG001"]
+"*.ipynb" = ["T201", "ERA001"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=src/aiontfy/ --cov-report=term-missing"
