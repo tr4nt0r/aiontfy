@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 
 from yarl import URL
 
+from .const import MAX_PRIORITY, MIN_PRIORITY
+
 
 @dataclass(kw_only=True, frozen=True)
 class HttpAction:
@@ -131,3 +133,19 @@ class Message:
     delay: str | None = None
     email: str | None = None
     call: str | None = None
+
+    def __post_init__(self) -> None:
+        """Post-initialization processing to validate attributes.
+
+        Raises
+        ------
+        ValueError
+            If the priority is not between the minimum and maximum allowed values.
+
+        """
+
+        if self.priority is not None and (
+            self.priority < MIN_PRIORITY or self.priority > MAX_PRIORITY
+        ):
+            msg = f"Priority must be between {MIN_PRIORITY} and {MAX_PRIORITY}"
+            raise ValueError(msg)
