@@ -53,8 +53,8 @@ plugins:
                 import:
                     - https://docs.python.org/3.12/objects.inv
                 options:
-                    ocstring_style: numpy
-                    merge_init_into_class: true
+                    docstring_style: numpy
+                    merge_init_into_class: false
                     show_signature: false
                     members_order: source
 
