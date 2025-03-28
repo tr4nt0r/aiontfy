@@ -1,15 +1,16 @@
 """Async ntfy client library."""
 
+from collections.abc import Callable
 from dataclasses import asdict
 from http import HTTPStatus
 from typing import Any, Self
 
-from aiohttp import ClientError, ClientSession
+from aiohttp import ClientError, ClientSession, WSMsgType
 from yarl import URL
 
 from .exceptions import NtfyConnectionError, NtfyTimeoutError, raise_http_error
 from .helpers import get_user_agent
-from .types import Message
+from .types import Message, Notification
 
 
 class Ntfy:
@@ -84,6 +85,75 @@ class Ntfy:
         """
 
         return await self._request("POST", self.url, json=asdict(message))
+
+    async def subscribe(  # noqa: PLR0913
+        self,
+        topics: list[str],
+        callback: Callable[[Notification], None],
+        title: str | None = None,
+        message: str | None = None,
+        tags: list[str] | None = None,
+        priority: list[int] | None = None,
+    ) -> None:
+        """Subscribe to one or more ntfy topics.
+
+        Parameters
+        ----------
+        topics : list[str]
+            A list of topic names to subscribe to.
+        callback : Callable[[Notification], None]
+            A callback function that will be called when a new notification is received.
+            The callback function should accept a single argument of type `Notification`.
+        title : str, optional
+            Filter: Only return messages that match this exact message string, defaults to None.
+        message : str, optional
+            Filter: Only return messages that match this exact title string, defaults to None.
+        tags : list[str], optional
+            A list of tags to use for the subscription, by default None.
+        priority : int, optional
+            The priority to use for the subscription, by default None.
+
+        Raises
+        ------
+        NtfyTimeoutError
+            If a timeout occurs during the subscription.
+        NtfyConnectionError
+            If a client error occurs during the subscription.
+
+        """
+
+        url = (
+            self.url.with_scheme("wss" if self.url.scheme == "https" else "ws")
+            / ",".join(topics)
+            / "ws"
+        )
+        params = {}
+        if title is not None:
+            params["title"] = title
+        if message is not None:
+            params["message"] = message
+        if tags is not None:
+            params["tags"] = ",".join(tags)
+        if priority is not None:
+            params["priority"] = ",".join(str(x) for x in priority)
+
+        try:
+            async with self._session.ws_connect(url, params=params) as ws:
+                async for msg in ws:
+                    if msg.type == WSMsgType.TEXT:
+                        callback(Notification.from_json(msg.data))
+                    elif msg.type in (
+                        WSMsgType.CLOSE,
+                        WSMsgType.CLOSING,
+                        WSMsgType.CLOSED,
+                    ):
+                        break
+                    elif msg.type == WSMsgType.ERROR:
+                        continue
+        except TimeoutError as e:
+            raise NtfyTimeoutError from e
+        except ClientError as e:
+            raise NtfyConnectionError from e
 
     async def close(self) -> None:
         """Close session.

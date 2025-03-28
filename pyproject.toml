@@ -4,7 +4,7 @@ line-length = 88
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001"]
+ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001", "PLR2004"]
 
 
 [tool.ruff.lint.isort]
@@ -101,6 +101,8 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
   "aiohttp~=3.11",
+  "mashumaro~=3.13",
+  "orjson~=3.10",
 ]
 
 [project.urls]
