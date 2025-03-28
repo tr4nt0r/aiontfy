@@ -1,6 +1,7 @@
 """Type definitions for aiontfy."""
 
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import StrEnum
 
 from mashumaro import field_options
@@ -170,7 +171,9 @@ class Attachment(DataClassORJSONMixin):
     url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
     type: str | None = None
     size: int | None = None
-    expires: int | None = None
+    expires: datetime | None = field(
+        default=None, metadata=field_options(deserialize=datetime.fromtimestamp)
+    )
 
 
 @dataclass(kw_only=True, frozen=True)
@@ -178,8 +181,10 @@ class Notification(DataClassORJSONMixin):
     """A notification received from a subscribed topic."""
 
     id: str
-    time: int
-    expires: int | None = None
+    time: datetime = field(metadata=field_options(deserialize=datetime.fromtimestamp))
+    expires: datetime | None = field(
+        default=None, metadata=field_options(deserialize=datetime.fromtimestamp)
+    )
     event: Event
     topic: str
     message: str | None = None
