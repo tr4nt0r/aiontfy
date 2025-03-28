@@ -5,44 +5,49 @@ tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '💥 Breaking changes'
     labels:
-      - ':boom: breaking'
-  - title: '✨ New Features'
+      - ':boom: breaking change'
+  - title: '🚀 New Features'
     labels:
-      - ':sparkles: feature'
+      - ':rocket: feature'
   - title: '👻 Bug Fixes'
     labels:
       - ':ghost: bug'
-  - title: '🗄️ Deprecations'
+  - title: '⏳ Deprecations'
     labels:
       - ':file_cabinet: deprecation'
   - title: '📃 Documentation'
     labels:
       - ':book: documentation'
-  - title: '🧩 Dependency Updates'
-    labels:
-      - ':recycle: dependencies'
-    collapse-after: 5
   - title: '🧰 Maintenance'
     labels:
       - ':building_construction: build'
       - ':construction_worker_woman: ci'
+      - ':clapper: github_actions'
+    collapse-after: 5
   - title: '🔬 Other updates'
     labels:
       - ':nail_care: style'
       - ':test_tube: testing'
       - ':racing_car: performance'
-      - ':rocket: code quality'
-
+      - ':sparkles: code quality'
+      - ':sparkles: enhancement'
+  - title: '🧩 Dependency Updates'
+    labels:
+      - ':recycle: dependencies'
+    collapse-after: 5
+exclude-labels:
+  - ':arrow_up: bump'
+  - 'skip-changelog'
 
 autolabeler:
-  - label: ':sparkles: feature'
+  - label: ':rocket: feature'
     title:
       - '/adds/i'
       - '/add method/i'
   - label: ':ghost: bug'
     title:
       - '/fix/i'
-  - label: ':rocket: code quality'
+  - label: ':sparkles: code quality'
     title:
       - '/Refactor/i'
   - label: ':test_tube: testing'
@@ -56,8 +61,6 @@ autolabeler:
       - '*.md'
       - 'mkdocs.yml'
   - label: ':construction_worker_woman: ci'
-    title:
-      - '/ci:/i'
     files:
       - '.github/*'
   - label: ':recycle: dependencies'
@@ -70,15 +73,15 @@ autolabeler:
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 exclude-contributors:
-  - 'tr4nt0r'
+  - 'dependabot'
 
 version-resolver:
   major:
     labels:
-      - 'breaking'
+      - ':boom: breaking change'
   minor:
     labels:
-      - 'feature'
+      - ':rocket: feature'
   default: patch
 
 template: |
@@ -87,3 +90,7 @@ template: |
   $CHANGES
 
   Contributors: $CONTRIBUTORS
+
+replacers:
+  - search: '/(?:and )?@dependabot(?:\[bot\])?,?/g'
+    replace: ''

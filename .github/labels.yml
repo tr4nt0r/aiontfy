@@ -4,7 +4,7 @@
 #
 # The repository labels will be automatically configured using this file and
 # the GitHub Action https://github.com/marketplace/actions/github-labeler.
-- name: ':boom: breaking'
+- name: ':boom: breaking change'
   from_name: breaking
   description: Breaking Changes
   color: bfd4f2
@@ -32,8 +32,8 @@
   from_name: duplicate
   description: This issue or pull request already exists
   color: cfd3d7
-- name: ':sparkles: feature'
-  from_name: feature
+- name: ':rocket: feature'
+  from_name: ':sparkles: feature'
   description: New feature or request
   color: a2eeef
 - name: ':clapper: github_actions'
@@ -64,8 +64,8 @@
   from_name: question
   description: Further information is requested
   color: d876e3
-- name: ':rocket: code quality'
-  from_name: code quality
+- name: ':sparkles: code quality'
+  from_name: ':rocket: code quality'
   description: Code quality improvements
   color: ef67c4
 - name: ':file_cabinet: deprecation'
@@ -84,3 +84,10 @@
   from_name: wontfix
   description: This will not be worked on
   color: ffffff
+- name: ':arrow_up: bump'
+  description: Bump the version
+  color: 3C5D34
+- name: ':sparkles: enhancement'
+  color: CBF8DA
+- name: 'skip-changelog'
+  color: D3D3D3
