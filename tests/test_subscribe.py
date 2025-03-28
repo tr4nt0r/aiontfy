@@ -1,5 +1,6 @@
 """Tests for subscribe method."""
 
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock, MagicMock
 
 from aiohttp import ClientError, WSMsgType
@@ -28,8 +29,8 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
     callback_mock.assert_called_with(
         Notification(
             id="h6Y2hKA5sy0U",
-            time=1743184726,
-            expires=1743227926,
+            time=datetime(2025, 3, 28, 17, 58, 46, tzinfo=UTC),
+            expires=datetime(2025, 3, 29, 5, 58, 46, tzinfo=UTC),
             event=Event.MESSAGE,
             topic="test1",
             message="Hello",
@@ -72,8 +73,8 @@ async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:
     callback_mock.assert_called_with(
         Notification(
             id="h6Y2hKA5sy0U",
-            time=1743184726,
-            expires=1743227926,
+            time=datetime(2025, 3, 28, 17, 58, 46, tzinfo=UTC),
+            expires=datetime(2025, 3, 29, 5, 58, 46, tzinfo=UTC),
             event=Event.MESSAGE,
             topic="test1",
             message="Hello",
@@ -109,8 +110,8 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
     callback_mock.assert_any_call(
         Notification(
             id="h6Y2hKA5sy0U",
-            time=1743184726,
-            expires=1743227926,
+            time=datetime(2025, 3, 28, 17, 58, 46, tzinfo=UTC),
+            expires=datetime(2025, 3, 29, 5, 58, 46, tzinfo=UTC),
             event=Event.MESSAGE,
             topic="test1",
             message="Hello",
@@ -125,8 +126,8 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
     callback_mock.assert_any_call(
         Notification(
             id="h6Y2hKA5sy0U",
-            time=1743184726,
-            expires=1743227926,
+            time=datetime(2025, 3, 28, 17, 58, 46, tzinfo=UTC),
+            expires=datetime(2025, 3, 29, 5, 58, 46, tzinfo=UTC),
             event=Event.MESSAGE,
             topic="test2",
             message="World",

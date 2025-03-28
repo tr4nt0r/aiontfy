@@ -1,6 +1,7 @@
 """Type definitions for aiontfy."""
 
 from dataclasses import dataclass, field
+from datetime import UTC, datetime
 from enum import StrEnum
 
 from mashumaro import field_options
@@ -162,6 +163,11 @@ class Event(StrEnum):
     POLL_REQUEST = "poll_request"
 
 
+def timestamp(ts: int) -> datetime:
+    """Serialize timestamp to datetime."""
+    return datetime.fromtimestamp(ts, tz=UTC)
+
+
 @dataclass(kw_only=True, frozen=True)
 class Attachment(DataClassORJSONMixin):
     """Details about an attachment."""
@@ -170,7 +176,9 @@ class Attachment(DataClassORJSONMixin):
     url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
     type: str | None = None
     size: int | None = None
-    expires: int | None = None
+    expires: datetime | None = field(
+        default=None, metadata=field_options(deserialize=timestamp)
+    )
 
 
 @dataclass(kw_only=True, frozen=True)
@@ -178,8 +186,10 @@ class Notification(DataClassORJSONMixin):
     """A notification received from a subscribed topic."""
 
     id: str
-    time: int
-    expires: int | None = None
+    time: datetime = field(metadata=field_options(deserialize=timestamp))
+    expires: datetime | None = field(
+        default=None, metadata=field_options(deserialize=timestamp)
+    )
     event: Event
     topic: str
     message: str | None = None
