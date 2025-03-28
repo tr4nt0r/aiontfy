@@ -1,14 +1,17 @@
 """Type definitions for aiontfy."""
 
 from dataclasses import dataclass, field
+from enum import StrEnum
 
+from mashumaro import field_options
+from mashumaro.mixins.orjson import DataClassORJSONMixin
 from yarl import URL
 
 from .const import MAX_PRIORITY, MIN_PRIORITY
 
 
 @dataclass(kw_only=True, frozen=True)
-class HttpAction:
+class HttpAction(DataClassORJSONMixin):
     """An Http ntfy action.
 
     Attributes
@@ -29,7 +32,7 @@ class HttpAction:
 
     action: str = field(default="http", init=False)
     label: str
-    url: URL
+    url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
     method: str = "POST"
     headers: dict[str, str] | None = None
     body: str | None = None
@@ -37,7 +40,7 @@ class HttpAction:
 
 
 @dataclass(kw_only=True, frozen=True)
-class BroadcastAction:
+class BroadcastAction(DataClassORJSONMixin):
     """A broadcast ntfy action.
 
     Attributes
@@ -54,13 +57,14 @@ class BroadcastAction:
 
     action: str = field(default="broadcast", init=False)
     label: str
+    url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
     intent: str | None = None
     extras: dict[str, str] | None = None
     clear: bool = False
 
 
 @dataclass(kw_only=True, frozen=True)
-class ViewAction:
+class ViewAction(DataClassORJSONMixin):
     """A view ntfy action.
 
     Attributes
@@ -75,7 +79,7 @@ class ViewAction:
 
     action: str = field(default="view", init=False)
     label: str
-    url: URL
+    url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
     clear: bool = False
 
 
@@ -148,3 +152,45 @@ class Message:
         ):
             msg = f"Priority must be between {MIN_PRIORITY} and {MAX_PRIORITY}"
             raise ValueError(msg)
+
+
+class Event(StrEnum):
+    """Message type."""
+
+    OPEN = "open"
+    KEEPALIVE = "keepalive"
+    MESSAGE = "message"
+    POLL_REQUEST = "poll_request"
+
+
+@dataclass(kw_only=True, frozen=True)
+class Attachment(DataClassORJSONMixin):
+    """Details about an attachment."""
+
+    name: str
+    url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
+    type: str | None = None
+    size: int | None = None
+    expires: int | None = None
+
+
+@dataclass(kw_only=True, frozen=True)
+class Notification(DataClassORJSONMixin):
+    """A notification received from a subscribed topic."""
+
+    id: str
+    time: int
+    expires: int | None = None
+    event: Event
+    topic: str
+    message: str | None = None
+    title: str | None = None
+    tags: list[str] = field(default_factory=list)
+    priority: int | None = None
+    click: URL | None = field(
+        default=None, metadata=field_options(serialize=str, deserialize=URL)
+    )
+    actions: list[ViewAction | BroadcastAction | HttpAction] = field(
+        default_factory=list
+    )
+    attachment: Attachment | None = None
