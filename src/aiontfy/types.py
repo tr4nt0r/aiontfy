@@ -203,3 +203,4 @@ class Notification(DataClassORJSONMixin):
         default_factory=list
     )
     attachment: Attachment | None = None
+    content_type: str | None = None
