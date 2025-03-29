@@ -3,7 +3,7 @@
 from collections.abc import Callable
 from dataclasses import asdict
 from http import HTTPStatus
-from typing import Self
+from typing import Any, Self
 
 from aiohttp import ClientError, ClientSession, WSMsgType
 from yarl import URL
@@ -34,7 +34,7 @@ class Ntfy:
             self._session = ClientSession(headers={"User-Agent": get_user_agent()})
             self._close_session = True
 
-    async def _request(self, method: str, url: URL, **kwargs) -> str:
+    async def _request(self, method: str, url: URL, **kwargs: Any) -> str:  # noqa: ANN401
         """Handle API request.
 
         Parameters
