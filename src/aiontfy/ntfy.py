@@ -109,9 +109,9 @@ class Ntfy:
         message : str, optional
             Filter: Only return messages that match this exact title string, defaults to None.
         tags : list[str], optional
-            A list of tags to use for the subscription, by default None.
+            Filter: Only return messages that match all listed tags, defaults to None
         priority : int, optional
-            The priority to use for the subscription, by default None.
+            Filter: Only return messages that match any priority listed, defaults to None.
 
         Raises
         ------
