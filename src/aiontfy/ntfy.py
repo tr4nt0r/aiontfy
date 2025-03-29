@@ -3,7 +3,7 @@
 from collections.abc import Callable
 from dataclasses import asdict
 from http import HTTPStatus
-from typing import Any, Self
+from typing import Self
 
 from aiohttp import ClientError, ClientSession, WSMsgType
 from yarl import URL
@@ -34,7 +34,7 @@ class Ntfy:
             self._session = ClientSession(headers={"User-Agent": get_user_agent()})
             self._close_session = True
 
-    async def _request(self, method: str, url: URL, **kwargs) -> dict[str, Any]:
+    async def _request(self, method: str, url: URL, **kwargs) -> str:
         """Handle API request.
 
         Parameters
@@ -61,30 +61,37 @@ class Ntfy:
 
         try:
             async with self._session.request(method, url, **kwargs) as r:
-                data = await r.json()
                 if r.status >= HTTPStatus.BAD_REQUEST:
-                    raise_http_error(**data)
-                return data
+                    raise_http_error(**(await r.json()))
+                return await r.text()
         except TimeoutError as e:
             raise NtfyTimeoutError from e
         except ClientError as e:
             raise NtfyConnectionError from e
 
-    async def publish(self, message: Message) -> dict[str, Any]:
-        """Publish a message to ntfy.
+    async def publish(self, message: Message) -> Notification:
+        """Publish a message to an ntfy topic.
 
         Parameters
         ----------
         message : Message
-            The message to be published.
+            The message to be published, containing details such as topic, title, and content.
 
         Returns
         -------
-        dict[str, Any]
-            The JSON response from the API.
-        """
+        Notification
+            A `Notification` object representing the response from the ntfy service.
 
-        return await self._request("POST", self.url, json=asdict(message))
+        Raises
+        ------
+        NtfyTimeoutError
+            If a timeout occurs during the request.
+        NtfyConnectionError
+            If a client error occurs during the request.
+        """
+        return Notification.from_json(
+            await self._request("POST", self.url, json=asdict(message))
+        )
 
     async def subscribe(  # noqa: PLR0913
         self,
