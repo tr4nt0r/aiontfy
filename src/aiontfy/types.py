@@ -2,13 +2,46 @@
 
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from enum import StrEnum
+from enum import IntEnum, StrEnum
 
 from mashumaro import field_options
 from mashumaro.mixins.orjson import DataClassORJSONMixin
 from yarl import URL
 
 from .const import MAX_PRIORITY, MIN_PRIORITY
+
+
+class DeleteAfter(IntEnum):
+    """Delete after periods."""
+
+    NEVER = 0
+    AFTER_THREE_HRS = 10800
+    AFTER_ONE_DAY = 86400
+    AFTER_ONE_WEEK = 604800
+    AFTER_ONE_MONTH = 2592000
+
+
+class Priority(IntEnum):
+    """Message priority."""
+
+    MIN = 1
+    LOW = 2
+    DEFAULT = 3
+    HIGH = 4
+    MAX = 5
+
+
+class Sound(StrEnum):
+    """Notification sound."""
+
+    NO_SOUND = "none"
+    DING = "ding"
+    JUNTOS = "juntos"
+    PRISTINE = "pristine"
+    DADUM = "dadum"
+    POP = "pop"
+    POP_SWOOSH = "pop-swoosh"
+    BEEP = "beep"
 
 
 @dataclass(kw_only=True, frozen=True)
@@ -195,7 +228,7 @@ class Notification(DataClassORJSONMixin):
     message: str | None = None
     title: str | None = None
     tags: list[str] = field(default_factory=list)
-    priority: int | None = None
+    priority: Priority | None = None
     click: URL | None = field(
         default=None, metadata=field_options(serialize=str, deserialize=URL)
     )
@@ -235,9 +268,9 @@ class Subscription(DataClassORJSONMixin):
 class NotificationPrefs(DataClassORJSONMixin):
     """Notification preferences."""
 
-    sound: str | None = None
-    min_priority: int | None = None
-    delete_after: int | None = None
+    sound: Sound | None = None
+    min_priority: Priority | None = None
+    delete_after: DeleteAfter | None = None
 
 
 @dataclass(kw_only=True, frozen=True)
