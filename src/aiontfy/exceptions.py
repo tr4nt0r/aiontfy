@@ -8,7 +8,9 @@ class NtfyException(Exception):  # noqa: N818
 class NtfyHTTPError(NtfyException):
     """Base class for HTTP errors."""
 
-    def __init__(self, code: int, http: int, error: str, link: str) -> None:
+    def __init__(
+        self, code: int, http: int, error: str, link: str | None = None
+    ) -> None:
         """
         Initialize the exception with a code, HTTP status, error message, and link.
 
@@ -20,7 +22,7 @@ class NtfyHTTPError(NtfyException):
             The HTTP status code.
         error : str
             The error message.
-        link : str
+        link : str, optional
             A link to more information about the error.
 
         """
@@ -369,7 +371,7 @@ class NtfyInsufficientStorageUnifiedPushError(NtfyInsufficientStorageError):
     """50701 Cannot publish to UnifiedPush topic without previously active subscriber."""
 
 
-def raise_http_error(code: int, http: int, error: str, link: str) -> None:
+def raise_http_error(code: int, http: int, error: str, link: str | None = None) -> None:
     """Raise an appropriate HTTP error based on the provided error code.
 
     Parameters
@@ -380,7 +382,7 @@ def raise_http_error(code: int, http: int, error: str, link: str) -> None:
         The HTTP status code associated with the error.
     error : str
         A description of the error.
-    link : str
+    link : str, optional
         A URL link providing more information about the error.
 
     Raises
