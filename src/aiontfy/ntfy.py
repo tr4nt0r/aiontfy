@@ -2,6 +2,7 @@
 
 from collections.abc import Callable
 from dataclasses import asdict
+from datetime import datetime
 from http import HTTPStatus
 from typing import Any, Self
 
@@ -10,7 +11,7 @@ from yarl import URL
 
 from .exceptions import NtfyConnectionError, NtfyTimeoutError, raise_http_error
 from .helpers import get_user_agent
-from .types import Account, Message, Notification, Stats
+from .types import Account, AccountTokenResponse, Message, Notification, Stats
 
 
 class Ntfy:
@@ -231,6 +232,40 @@ class Ntfy:
             If the client is not authorized to access the account information.
         """
         return Account.from_json(await self._request("GET", self.url / "v1/account"))
+
+    async def generate_token(
+        self,
+        label: str | None = None,
+        expires: datetime | None = None,
+    ) -> AccountTokenResponse:
+        """
+        Generate a token for the account.
+
+        Parameters
+        ----------
+        label : str, optional
+            A label for the token, defaults to None.
+        expires : datetime, optional
+            The expiration date and time for the token. If not provided, the token will not expire.
+
+        Returns
+        -------
+        AccountTokenResponse
+            An instance of `AccountTokenResponse` containing the generated token details.
+
+        Raises
+        ------
+        NtfyUnauthorizedAuthenticationError
+            If the client is not authenticated.
+        """
+        payload = {
+            "label": label,
+            "expires": int(expires.timestamp()) if expires else 0,
+        }
+
+        return AccountTokenResponse.from_json(
+            await self._request("POST", self.url / "v1/account/token", json=payload)
+        )
 
     async def close(self) -> None:
         """Close session.
