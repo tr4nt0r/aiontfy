@@ -5,7 +5,7 @@ from dataclasses import asdict
 from http import HTTPStatus
 from typing import Any, Self
 
-from aiohttp import ClientError, ClientSession, WSMsgType
+from aiohttp import BasicAuth, ClientError, ClientSession, WSMsgType
 from yarl import URL
 
 from .exceptions import NtfyConnectionError, NtfyTimeoutError, raise_http_error
@@ -16,7 +16,14 @@ from .types import Message, Notification
 class Ntfy:
     """Ntfy client."""
 
-    def __init__(self, url: str, session: ClientSession | None = None) -> None:
+    def __init__(
+        self,
+        url: str,
+        session: ClientSession | None = None,
+        username: str | None = None,
+        password: str | None = None,
+        token: str | None = None,
+    ) -> None:
         """Initialize Ntfy client.
 
         Parameters
@@ -27,6 +34,12 @@ class Ntfy:
             An existing aiohttp ClientSession. If not provided, a new session will be created.
         """
         self.url = URL(url)
+        self.headers = None
+
+        if username is not None and password is not None:
+            self.headers = {"Authorization": BasicAuth(username, password).encode()}
+        elif token is not None:
+            self.headers = {"Authorization": f"Bearer {token}"}
 
         if session is not None:
             self._session = session
@@ -60,7 +73,9 @@ class Ntfy:
         """
 
         try:
-            async with self._session.request(method, url, **kwargs) as r:
+            async with self._session.request(
+                method, url, headers=self.headers, **kwargs
+            ) as r:
                 if r.status >= HTTPStatus.BAD_REQUEST:
                     raise_http_error(**(await r.json()))
                 return await r.text()
@@ -147,7 +162,9 @@ class Ntfy:
             params["priority"] = ",".join(str(x) for x in priority)
 
         try:
-            async with self._session.ws_connect(url, params=params) as ws:
+            async with self._session.ws_connect(
+                url, params=params, headers=self.headers
+            ) as ws:
                 async for msg in ws:
                     if msg.type == WSMsgType.TEXT:
                         callback(Notification.from_json(msg.data))

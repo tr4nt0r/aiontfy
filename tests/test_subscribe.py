@@ -27,7 +27,7 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
     await ntfy.subscribe(["test1"], callback_mock)
 
     mock_ws.ws_connect.assert_called_once_with(
-        URL("wss://example.com/test1/ws"), params={}
+        URL("wss://example.com/test1/ws"), params={}, headers=None
     )
     callback_mock.assert_called_once()
     callback_mock.assert_called_with(
@@ -93,6 +93,7 @@ async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:
             "tags": "tag1,tag2",
             "priority": "3",
         },
+        headers=None,
     )
     callback_mock.assert_called_once()
     callback_mock.assert_called_with(
@@ -129,7 +130,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
     await ntfy.subscribe(["test1", "test2"], callback_mock)
 
     mock_ws.ws_connect.assert_called_once_with(
-        URL("wss://example.com/test1,test2/ws"), params={}
+        URL("wss://example.com/test1,test2/ws"), params={}, headers=None
     )
     assert callback_mock.call_count == 2
     callback_mock.assert_any_call(
@@ -204,6 +205,72 @@ async def test_subscribe_ws_errors(mock_ws: AsyncMock, ws_msg_type: WSMsgType) -
     await ntfy.subscribe(["test"], callback_mock)
 
     mock_ws.ws_connect.assert_called_once_with(
-        URL("wss://example.com/test/ws"), params={}
+        URL("wss://example.com/test/ws"), params={}, headers=None
     )
     callback_mock.assert_not_called()
+
+
+async def test_subscribe_basic_auth(mock_ws: AsyncMock) -> None:
+    """Test successful subscription to a topic with basic authentication."""
+
+    callback_mock = MagicMock()
+
+    ntfy = Ntfy("https://example.com", mock_ws, username="user", password="pass")  # noqa: S106
+
+    await ntfy.subscribe(["test1"], callback_mock)
+
+    mock_ws.ws_connect.assert_called_once_with(
+        URL("wss://example.com/test1/ws"),
+        params={},
+        headers={"Authorization": "Basic dXNlcjpwYXNz"},
+    )
+    callback_mock.assert_called_once()
+    callback_mock.assert_called_with(
+        Notification(
+            id="h6Y2hKA5sy0U",
+            time=datetime(2025, 3, 28, 17, 58, 46, tzinfo=UTC),
+            expires=datetime(2025, 3, 29, 5, 58, 46, tzinfo=UTC),
+            event=Event.MESSAGE,
+            topic="test1",
+            message="Hello",
+            title="Title",
+            tags=["octopus"],
+            priority=3,
+            click=URL("https://example.com/"),
+            actions=[],
+            attachment=None,
+        )
+    )
+
+
+async def test_subscribe_bearer_auth(mock_ws: AsyncMock) -> None:
+    """Test successful subscription to a topic with bearer authentication."""
+
+    callback_mock = MagicMock()
+
+    ntfy = Ntfy("https://example.com", mock_ws, token="dXNlcjpwYXNz")  # noqa: S106
+
+    await ntfy.subscribe(["test1"], callback_mock)
+
+    mock_ws.ws_connect.assert_called_once_with(
+        URL("wss://example.com/test1/ws"),
+        params={},
+        headers={"Authorization": "Bearer dXNlcjpwYXNz"},
+    )
+    callback_mock.assert_called_once()
+    callback_mock.assert_called_with(
+        Notification(
+            id="h6Y2hKA5sy0U",
+            time=datetime(2025, 3, 28, 17, 58, 46, tzinfo=UTC),
+            expires=datetime(2025, 3, 29, 5, 58, 46, tzinfo=UTC),
+            event=Event.MESSAGE,
+            topic="test1",
+            message="Hello",
+            title="Title",
+            tags=["octopus"],
+            priority=3,
+            click=URL("https://example.com/"),
+            actions=[],
+            attachment=None,
+        )
+    )
