@@ -204,3 +204,19 @@ class Notification(DataClassORJSONMixin):
     )
     attachment: Attachment | None = None
     content_type: str | None = None
+
+
+@dataclass(kw_only=True, frozen=True)
+class Stats(DataClassORJSONMixin):
+    """Stats response.
+
+    Attributes
+    ----------
+    messages : int
+        The total number of messages.
+    messages_rate : float
+        Average number of messages per second.
+    """
+
+    messages: int
+    messages_rate: float

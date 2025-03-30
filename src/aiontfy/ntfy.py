@@ -10,7 +10,7 @@ from yarl import URL
 
 from .exceptions import NtfyConnectionError, NtfyTimeoutError, raise_http_error
 from .helpers import get_user_agent
-from .types import Message, Notification
+from .types import Message, Notification, Stats
 
 
 class Ntfy:
@@ -203,6 +203,19 @@ class Ntfy:
         await self._request("GET", self.url / ",".join(topics) / "auth")
 
         return True
+
+    async def stats(self) -> Stats:
+        """Get message statistics.
+
+        Returns
+        -------
+        Stats
+            An instance of the `Stats` class containing message statistics.
+
+
+        """
+
+        return Stats.from_json(await self._request("GET", self.url / "v1/stats"))
 
     async def close(self) -> None:
         """Close session.
