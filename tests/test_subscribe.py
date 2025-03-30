@@ -8,7 +8,11 @@ import pytest
 from yarl import URL
 
 from aiontfy import Event, Notification, Ntfy
-from aiontfy.exceptions import NtfyConnectionError, NtfyTimeoutError
+from aiontfy.exceptions import (
+    NtfyConnectionError,
+    NtfyForbiddenAccessError,
+    NtfyTimeoutError,
+)
 
 from .conftest import MSG, MSG_2
 
@@ -42,6 +46,27 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
             attachment=None,
         )
     )
+
+
+async def test_subscribe_forbidden(
+    mock_ws: AsyncMock,
+) -> None:
+    """Test subscription to a topic is forbidden."""
+
+    callback_mock = MagicMock()
+
+    ntfy = Ntfy("https://example.com", mock_ws)
+
+    mock_ws.request.return_value.__aenter__.return_value.status = 403
+    mock_ws.request.return_value.__aenter__.return_value.json.return_value = {
+        "code": 40301,
+        "http": 403,
+        "error": "forbidden",
+        "link": "https://ntfy.sh/docs/publish/#authentication",
+    }
+
+    with pytest.raises(NtfyForbiddenAccessError):
+        await ntfy.subscribe(["test1"], callback_mock)
 
 
 async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:

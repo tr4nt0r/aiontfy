@@ -3,7 +3,7 @@
 from collections.abc import Generator
 from unittest.mock import AsyncMock, MagicMock
 
-from aiohttp import ClientSession, WSMsgType
+from aiohttp import ClientResponse, ClientSession, WSMsgType
 from aiohttp.web_ws import WebSocketResponse
 from aioresponses import aioresponses
 import pytest
@@ -22,7 +22,12 @@ def aioclient_mock() -> Generator[aioresponses]:
 @pytest.fixture
 def mock_session() -> Generator[AsyncMock]:
     """Mock aiohttp ClientSession."""
-    return AsyncMock(spec=ClientSession)
+    mock_session = AsyncMock(spec=ClientSession)
+    mock_response = AsyncMock(spec=ClientResponse, status=200)
+
+    mock_session.request.return_value.__aenter__.return_value = mock_response
+
+    return mock_session
 
 
 @pytest.fixture

@@ -129,6 +129,8 @@ class Ntfy:
 
         """
 
+        await self.can_subscribe(topics)
+
         url = (
             self.url.with_scheme("wss" if self.url.scheme == "https" else "ws")
             / ",".join(topics)
@@ -161,6 +163,29 @@ class Ntfy:
             raise NtfyTimeoutError from e
         except ClientError as e:
             raise NtfyConnectionError from e
+
+    async def can_subscribe(self, topics: list[str]) -> bool:
+        """Check if the client can subscribe to a topic.
+
+        Parameters
+        ----------
+        topics : list of str
+            A list of topic names to check subscription permissions for.
+
+        Returns
+        -------
+        bool
+            True if the client can subscribe to the given topics.
+
+        Raises
+        ------
+        NtfyForbiddenAccessError
+            If the client is not authorized to subscribe to the given topics.
+        """
+
+        await self._request("GET", self.url / ",".join(topics) / "auth")
+
+        return True
 
     async def close(self) -> None:
         """Close session.
