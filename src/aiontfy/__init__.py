@@ -2,6 +2,7 @@
 
 from .ntfy import Ntfy
 from .types import (
+    Account,
     BroadcastAction,
     Event,
     HttpAction,
@@ -14,6 +15,7 @@ from .types import (
 __version__ = "0.0.0"
 
 __all__ = [
+    "Account",
     "BroadcastAction",
     "Event",
     "HttpAction",

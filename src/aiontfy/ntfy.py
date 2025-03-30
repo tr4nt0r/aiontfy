@@ -10,7 +10,7 @@ from yarl import URL
 
 from .exceptions import NtfyConnectionError, NtfyTimeoutError, raise_http_error
 from .helpers import get_user_agent
-from .types import Message, Notification, Stats
+from .types import Account, Message, Notification, Stats
 
 
 class Ntfy:
@@ -216,6 +216,21 @@ class Ntfy:
         """
 
         return Stats.from_json(await self._request("GET", self.url / "v1/stats"))
+
+    async def account(self) -> Account:
+        """Get account information.
+
+        Returns
+        -------
+        Account
+            An instance of the `Account` class containing account information.
+
+        Raises
+        ------
+        NtfyUnauthorizedAuthenticationError
+            If the client is not authorized to access the account information.
+        """
+        return Account.from_json(await self._request("GET", self.url / "v1/account"))
 
     async def close(self) -> None:
         """Close session.

@@ -1,6 +1,8 @@
 """Fixtures for aiontfy tests."""
 
 from collections.abc import Generator
+from functools import lru_cache
+import pathlib
 from unittest.mock import AsyncMock, MagicMock
 
 from aiohttp import ClientResponse, ClientSession, WSMsgType
@@ -33,3 +35,14 @@ def mock_ws(mock_session: AsyncMock) -> Generator[AsyncMock]:
     ]
     mock_session.ws_connect.return_value.__aenter__.return_value = mock_ws
     return mock_session
+
+
+@lru_cache
+def load_fixture(filename: str) -> str:
+    """Load a fixture."""
+
+    return (
+        pathlib.Path(__file__)
+        .parent.joinpath("fixtures", filename)
+        .read_text(encoding="utf-8")
+    )

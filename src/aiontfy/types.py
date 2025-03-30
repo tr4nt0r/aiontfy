@@ -220,3 +220,108 @@ class Stats(DataClassORJSONMixin):
 
     messages: int
     messages_rate: float
+
+
+@dataclass(kw_only=True, frozen=True)
+class Subscription(DataClassORJSONMixin):
+    """Subscription information."""
+
+    base_url: URL = field(metadata=field_options(serialize=str, deserialize=URL))
+    topic: str
+    display_name: str
+
+
+@dataclass(kw_only=True, frozen=True)
+class NotificationPrefs(DataClassORJSONMixin):
+    """Notification preferences."""
+
+    sound: str | None = None
+    min_priority: int | None = None
+    delete_after: int | None = None
+
+
+@dataclass(kw_only=True, frozen=True)
+class AccountTokenResponse(DataClassORJSONMixin):
+    """Account token response."""
+
+    token: str
+    label: str | None = None
+    last_access: datetime = field(metadata=field_options(deserialize=timestamp))
+    last_origin: str | None = None
+    expires: datetime | None = field(
+        default=None, metadata=field_options(deserialize=timestamp)
+    )
+
+
+@dataclass(kw_only=True, frozen=True)
+class AccountTier(DataClassORJSONMixin):
+    """Account tear information."""
+
+    code: str
+    name: str
+
+
+@dataclass(kw_only=True, frozen=True)
+class AccountLimits(DataClassORJSONMixin):
+    """Account limits information."""
+
+    basis: str | None = None
+    messages: int
+    messages_expiry_duration: int
+    emails: int
+    reservations: int
+    attachment_total_size: int
+    attachment_file_size: int
+    attachment_bandwidth: int
+
+
+@dataclass(kw_only=True, frozen=True)
+class AccountStats(DataClassORJSONMixin):
+    """Account stats."""
+
+    messages: int
+    messages_remaining: int
+    emails: int
+    emails_remaining: int
+    reservations: int
+    reservations_remaining: int
+    attachment_total_size: int
+    attachment_total_size_remaining: int
+
+
+@dataclass(kw_only=True, frozen=True)
+class Reservation(DataClassORJSONMixin):
+    """Topic reservation settings."""
+
+    topic: str
+    everyone: str
+
+
+@dataclass(kw_only=True, frozen=True)
+class AccountBilling(DataClassORJSONMixin):
+    """Acount billing information."""
+
+    customer: bool
+    subscription: bool
+    status: str | None = None
+    interval: str | None = None
+    paid_until: datetime = field(metadata=field_options(deserialize=timestamp))
+    cancel_at: datetime = field(metadata=field_options(deserialize=timestamp))
+
+
+@dataclass(kw_only=True, frozen=True)
+class Account(DataClassORJSONMixin):
+    """Account response."""
+
+    username: str
+    role: str | None = None
+    sync_topic: str | None = None
+    language: str | None = None
+    notification: NotificationPrefs | None = None
+    subscriptions: list[Subscription] = field(default_factory=list)
+    reservations: list[Reservation] = field(default_factory=list)
+    tokens: list[AccountTokenResponse] = field(default_factory=list)
+    tier: AccountTier | None = None
+    limits: AccountLimits | None = None
+    stats: AccountStats
+    billing: AccountBilling | None = None
