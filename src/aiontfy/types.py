@@ -130,7 +130,7 @@ class Message:
     )
     click: URL | None = None
     attach: URL | None = None
-    markdown: bool = True
+    markdown: bool = False
     icon: URL | None = None
     filename: str | None = None
     delay: str | None = None
