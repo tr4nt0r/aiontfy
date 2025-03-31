@@ -11,7 +11,15 @@ from yarl import URL
 
 from .exceptions import NtfyConnectionError, NtfyTimeoutError, raise_http_error
 from .helpers import get_user_agent
-from .types import Account, AccountTokenResponse, Message, Notification, Stats
+from .types import (
+    Account,
+    AccountTokenResponse,
+    Everyone,
+    Message,
+    Notification,
+    Response,
+    Stats,
+)
 
 
 class Ntfy:
@@ -266,6 +274,31 @@ class Ntfy:
         return AccountTokenResponse.from_json(
             await self._request("POST", self.url / "v1/account/token", json=payload)
         )
+
+    async def reservation(self, topic: str, everyone: Everyone) -> bool:
+        """Reserve or change the reservation status of a topic.
+
+        Parameters
+        ----------
+        topic : str
+            The topic to reserve.
+        everyone : str
+            The reservation status to set for the topic.
+
+        Returns
+        -------
+        bool
+            True if successfull.
+
+        """
+
+        return Response.from_json(
+            await self._request(
+                "POST",
+                self.url / "v1/account/reservation",
+                json={"topic": topic, "everyone": everyone.value},
+            )
+        ).success
 
     async def close(self) -> None:
         """Close session.
