@@ -44,6 +44,15 @@ class Sound(StrEnum):
     BEEP = "beep"
 
 
+class Everyone(StrEnum):
+    """Everyone access."""
+
+    DENY = "deny-all"
+    READ = "read-only"
+    WRITE = "write-only"
+    READ_WRITE = "read-write"
+
+
 @dataclass(kw_only=True, frozen=True)
 class HttpAction(DataClassORJSONMixin):
     """An Http ntfy action.
@@ -358,3 +367,10 @@ class Account(DataClassORJSONMixin):
     limits: AccountLimits | None = None
     stats: AccountStats
     billing: AccountBilling | None = None
+
+
+@dataclass(kw_only=True, frozen=True)
+class Response(DataClassORJSONMixin):
+    """Success response."""
+
+    success: bool
