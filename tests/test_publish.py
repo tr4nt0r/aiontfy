@@ -23,7 +23,6 @@ async def test_publish_message(mock_session: AsyncMock) -> None:
     mock_session.request.assert_called_once_with(
         "POST",
         URL("http://example.com"),
-        headers=None,
         json={
             "topic": "mytopic",
             "message": "This is a test message",

@@ -43,12 +43,12 @@ class Ntfy:
             An existing aiohttp ClientSession. If not provided, a new session will be created.
         """
         self.url = URL(url)
-        self.headers = None
+        self._headers = None
 
         if username is not None and password is not None:
-            self.headers = {"Authorization": BasicAuth(username, password).encode()}
+            self._headers = {"Authorization": BasicAuth(username, password).encode()}
         elif token is not None:
-            self.headers = {"Authorization": f"Bearer {token}"}
+            self._headers = {"Authorization": f"Bearer {token}"}
 
         if session is not None:
             self._session = session
@@ -81,10 +81,13 @@ class Ntfy:
             If a client error occurs during the request.
         """
 
+        if self._headers is not None and "headers" in kwargs:
+            kwargs["headers"] = kwargs["headers"].update(self._headers)
+        elif self._headers is not None:
+            kwargs["headers"] = self._headers
+
         try:
-            async with self._session.request(
-                method, url, headers=self.headers, **kwargs
-            ) as r:
+            async with self._session.request(method, url, **kwargs) as r:
                 if r.status >= HTTPStatus.BAD_REQUEST:
                     raise_http_error(**(await r.json()))
                 return await r.text()
@@ -172,7 +175,7 @@ class Ntfy:
 
         try:
             async with self._session.ws_connect(
-                url, params=params, headers=self.headers
+                url, params=params, headers=self._headers
             ) as ws:
                 async for msg in ws:
                     if msg.type == WSMsgType.TEXT:

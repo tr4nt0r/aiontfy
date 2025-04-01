@@ -45,7 +45,6 @@ async def test_account_unauthenticated(mock_session: AsyncMock) -> None:
     mock_session.request.assert_called_once_with(
         "GET",
         URL("http://example.com/v1/account"),
-        headers=None,
     )
 
     assert account == Account.from_json(load_fixture("account_anonymous.json"))
