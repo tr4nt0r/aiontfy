@@ -81,10 +81,8 @@ class Ntfy:
             If a client error occurs during the request.
         """
 
-        if self._headers is not None and "headers" in kwargs:
-            kwargs["headers"] = kwargs["headers"].update(self._headers)
-        elif self._headers is not None:
-            kwargs["headers"] = self._headers
+        if self._headers:
+            kwargs.setdefault("headers", {}).update(self._headers)
 
         try:
             async with self._session.request(method, url, **kwargs) as r:
@@ -300,6 +298,40 @@ class Ntfy:
                 "POST",
                 self.url / "v1/account/reservation",
                 json={"topic": topic, "everyone": everyone.value},
+            )
+        ).success
+
+    async def delete_reservation(
+        self, topic: str, *, delete_messages: bool = False
+    ) -> bool:
+        """Delete a topic reservation.
+
+        Parameters
+        ----------
+        topic : str
+            The name of the topic whose reservation is to be deleted.
+        delete_messages : bool, optional
+            If True, deletes all messages and attachments that are cached on the server
+            otherwise they will become publicly available. Defaults to False.
+
+        Returns
+        -------
+        bool
+            True if the reservation was successfully deleted, False otherwise.
+
+        Raises
+        ------
+        NtfyUnauthorizedAuthenticationError
+            If the client is not authenticated or the reservation does not exist.
+        """
+        kwargs = {}
+
+        if delete_messages:
+            kwargs["headers"] = {"X-Delete-Messages": "true"}
+
+        return Response.from_json(
+            await self._request(
+                "DELETE", self.url / "v1/account/reservation" / topic, **kwargs
             )
         ).success
 
