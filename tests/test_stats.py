@@ -23,7 +23,6 @@ async def test_stats(mock_session: AsyncMock) -> None:
     mock_session.request.assert_called_once_with(
         "GET",
         URL("http://example.com/v1/stats"),
-        headers=None,
     )
 
     assert stats.messages == 18
