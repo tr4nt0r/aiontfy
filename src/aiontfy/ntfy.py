@@ -1,7 +1,6 @@
 """Async ntfy client library."""
 
 from collections.abc import Callable
-from dataclasses import asdict
 from datetime import datetime
 from http import HTTPStatus
 from typing import Any, Self
@@ -115,7 +114,7 @@ class Ntfy:
             If a client error occurs during the request.
         """
         return Notification.from_json(
-            await self._request("POST", self.url, json=asdict(message))
+            await self._request("POST", self.url, json=message.to_dict())
         )
 
     async def subscribe(  # noqa: PLR0913
