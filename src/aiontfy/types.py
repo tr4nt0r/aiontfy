@@ -247,6 +247,9 @@ class Notification(DataClassORJSONMixin):
     click: URL | None = field(
         default=None, metadata=field_options(serialize=str, deserialize=URL)
     )
+    icon: URL | None = field(
+        default=None, metadata=field_options(serialize=str, deserialize=URL)
+    )
     actions: list[ViewAction | BroadcastAction | HttpAction] = field(
         default_factory=list
     )

@@ -9,7 +9,7 @@ from aiohttp import ClientResponse, ClientSession, WSMsgType
 from aiohttp.web_ws import WebSocketResponse
 import pytest
 
-MSG = """{"id": "h6Y2hKA5sy0U", "time": 1743184726, "expires": 1743227926, "event": "message", "topic": "test1", "message": "Hello", "title": "Title", "tags": ["octopus"], "priority": 3, "click": "https://example.com/", "actions": [], "attachment": null}"""
+MSG = """{"id": "h6Y2hKA5sy0U", "time": 1743184726, "expires": 1743227926, "event": "message", "topic": "test1", "message": "Hello", "title": "Title", "tags": ["octopus"], "priority": 3, "click": "https://example.com/", "icon": "https://example.com/icon.png", "actions": [], "attachment": null}"""
 MSG_2 = """{"id": "h6Y2hKA5sy0U", "time": 1743184726, "expires": 1743227926, "event": "message", "topic": "test2", "message": "World", "title": "Title", "tags": ["octopus"], "priority": 5, "click": "https://example.com/", "actions": [], "attachment": null}"""
 
 

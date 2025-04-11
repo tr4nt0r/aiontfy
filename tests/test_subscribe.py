@@ -42,6 +42,7 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
             tags=["octopus"],
             priority=3,
             click=URL("https://example.com/"),
+            icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
         )
@@ -108,6 +109,7 @@ async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:
             tags=["octopus"],
             priority=3,
             click=URL("https://example.com/"),
+            icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
         )
@@ -145,6 +147,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
             tags=["octopus"],
             priority=3,
             click=URL("https://example.com/"),
+            icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
         )
@@ -161,6 +164,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
             tags=["octopus"],
             priority=5,
             click=URL("https://example.com/"),
+            icon=None,
             actions=[],
             attachment=None,
         )
@@ -237,6 +241,7 @@ async def test_subscribe_basic_auth(mock_ws: AsyncMock) -> None:
             tags=["octopus"],
             priority=3,
             click=URL("https://example.com/"),
+            icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
         )
@@ -270,6 +275,7 @@ async def test_subscribe_bearer_auth(mock_ws: AsyncMock) -> None:
             tags=["octopus"],
             priority=3,
             click=URL("https://example.com/"),
+            icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
         )
