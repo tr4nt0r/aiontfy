@@ -126,7 +126,7 @@ class ViewAction(DataClassORJSONMixin):
 
 
 @dataclass(kw_only=True, frozen=True)
-class Message:
+class Message(DataClassORJSONMixin):
     """A message to publish to ntfy.
 
     Attributes
@@ -170,10 +170,16 @@ class Message:
     actions: list[ViewAction | BroadcastAction | HttpAction] = field(
         default_factory=list
     )
-    click: URL | None = None
-    attach: URL | None = None
+    click: URL | None = field(
+        default=None, metadata=field_options(serialize=str, deserialize=URL)
+    )
+    attach: URL | None = field(
+        default=None, metadata=field_options(serialize=str, deserialize=URL)
+    )
     markdown: bool = False
-    icon: URL | None = None
+    icon: URL | None = field(
+        default=None, metadata=field_options(serialize=str, deserialize=URL)
+    )
     filename: str | None = None
     delay: str | None = None
     email: str | None = None
