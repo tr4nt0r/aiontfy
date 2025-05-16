@@ -357,7 +357,9 @@ class AccountBilling(DataClassORJSONMixin):
     status: str | None = None
     interval: str | None = None
     paid_until: datetime = field(metadata=field_options(deserialize=timestamp))
-    cancel_at: datetime = field(metadata=field_options(deserialize=timestamp))
+    cancel_at: datetime | None = field(
+        default=None, metadata=field_options(deserialize=timestamp)
+    )
 
 
 @dataclass(kw_only=True, frozen=True)
