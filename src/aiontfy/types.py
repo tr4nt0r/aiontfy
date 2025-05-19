@@ -201,6 +201,58 @@ class Message(DataClassORJSONMixin):
             msg = f"Priority must be between {MIN_PRIORITY} and {MAX_PRIORITY}"
             raise ValueError(msg)
 
+    def to_x_headers(self) -> dict[str, str]:
+        """Serialize the dataclass as a dict with X- keys (e.g., X-Message, X-Title)."""
+        mapping = {
+            "message": "X-Message",
+            "title": "X-Title",
+            "tags": "X-Tags",
+            "priority": "X-Priority",
+            "actions": "X-Actions",
+            "click": "X-Click",
+            "attach": "X-Attach",
+            "markdown": "X-Markdown",
+            "icon": "X-Icon",
+            "filename": "X-Filename",
+            "delay": "X-Delay",
+            "email": "X-Email",
+            "call": "X-Call",
+        }
+        data = self.to_dict()
+
+        result = {}
+        for key, value in data.items():
+            if value is None or value == [] or key not in mapping:
+                continue
+            if key == "actions":
+                actions = []
+                for action in value:
+                    params = []
+                    for action_key, action_value in action.items():
+                        if action_value is None:
+                            continue
+                        if isinstance(action_value, bool):
+                            params.append(f"{action_key}={int(action_value)}")
+                        elif isinstance(action_value, dict):
+                            params.extend(
+                                f"{action_key}.{subkey}='{str(subvalue).encode('unicode_escape').decode()}'"
+                                for subkey, subvalue in action_value.items()
+                            )
+                        else:
+                            params.append(
+                                f"{action_key}='{str(action_value).encode('unicode_escape').decode()}'"
+                            )
+                    actions.append(", ".join(params))
+                result[mapping[key]] = "; ".join(actions)
+            elif isinstance(value, list):
+                result[mapping[key]] = ",".join(v for v in value)
+            elif isinstance(value, bool):
+                result[mapping[key]] = str(int(value))
+            else:
+                result[mapping[key]] = str(value).encode("unicode_escape").decode()
+
+        return result
+
 
 class Event(StrEnum):
     """Message type."""
