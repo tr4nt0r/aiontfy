@@ -320,9 +320,11 @@ class AccountLimits(DataClassORJSONMixin):
     messages: int
     messages_expiry_duration: int
     emails: int
+    calls: int
     reservations: int
     attachment_total_size: int
     attachment_file_size: int
+    attachment_expiry_duration: int
     attachment_bandwidth: int
 
 
@@ -334,6 +336,8 @@ class AccountStats(DataClassORJSONMixin):
     messages_remaining: int
     emails: int
     emails_remaining: int
+    calls: int
+    calls_remaining: int
     reservations: int
     reservations_remaining: int
     attachment_total_size: int
