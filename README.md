@@ -35,25 +35,30 @@ pip install aiontfy
 ```python
 """Publish to a ntfy topic."""
 
+import asyncio
+
 from aiohttp import ClientSession
 
 from aiontfy import Message, Ntfy
 
-async with ClientSession() as session:
 
-    ntfy = Ntfy("https://ntfy.sh", session)
+async def main() -> None:
+    async with ClientSession() as session:
 
-    message = Message(
-        topic="aiontfy",
-        title="Hello",
-        message="World",
-        click="https://example.com/",
-        delay="10s",
-        priority=3,
-        tags=["octopus"],
-    )
-    print(await ntfy.publish(message))
+        ntfy = Ntfy("https://ntfy.sh", session)
 
+        message = Message(
+            topic="aiontfy",
+            title="Hello",
+            message="World",
+            click="https://example.com/",
+            delay="10s",
+            priority=3,
+            tags=["octopus"],
+        )
+        print(await ntfy.publish(message))
+
+asyncio.run(main())
 
 ```
 
@@ -86,9 +91,9 @@ async def main() -> None:
 
 asyncio.run(main())
 
-For more advanced usage, refer to the [documentation](https://tr4nt0r.github.io/pynecil).
-
 ```
+
+For more advanced usage, refer to the [documentation](https://tr4nt0r.github.io/pynecil).
 
 ---
 
