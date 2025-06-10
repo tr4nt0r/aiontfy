@@ -86,7 +86,7 @@ packages = ["src/aiontfy"]
 [project]
 name = "aiontfy"
 authors = [
-  { name = "aiontfy", email = "manfred@dennerlein.name" }
+  { name = "Manfred Dennerlein Rodelo", email = "manfred@dennerlein.name" }
 ]
 description = "Async ntfy client library"
 readme = "README.md"
