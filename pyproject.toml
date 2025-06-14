@@ -48,7 +48,7 @@ path = "src/aiontfy/const.py"
 [tool.hatch.envs.default]
 python = "3.12"
 dependencies = [
-    "mypy==1.15.0",
+    "mypy==1.16.0",
     "ruff==0.11.13",
     "pytest==8.3.5",
     "pytest-cov==6.0.0",
