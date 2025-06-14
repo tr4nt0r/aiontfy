@@ -12,7 +12,7 @@
   "packageRules": [
     {
       "matchManagers": [
-        "pip_requirements"
+        "pep621"
       ],
       "addLabels": [
         ":snake: python"
