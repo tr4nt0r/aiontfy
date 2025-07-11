@@ -5,6 +5,7 @@ Asynchronous client library for the [ntfy](https://ntfy.sh/) pub-sub notificatio
 [![build](https://github.com/tr4nt0r/aiontfy/workflows/Build/badge.svg)](https://github.com/tr4nt0r/aiontfy/actions)
 [![codecov](https://codecov.io/gh/tr4nt0r/aiontfy/graph/badge.svg?token=aqCYYmMC6i)](https://codecov.io/gh/tr4nt0r/aiontfy)
 [![PyPI version](https://badge.fury.io/py/aiontfy.svg)](https://badge.fury.io/py/aiontfy)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/aiontfy?style=flat&label=pypi%20downloads)
 [!["Buy Me A Coffee"](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/tr4nt0r)
 [![GitHub Sponsor](https://img.shields.io/badge/GitHub-Sponsor-blue?logo=github)](https://github.com/sponsors/tr4nt0r)
 
