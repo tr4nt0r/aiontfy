@@ -1,5 +1,6 @@
 """Async ntfy client library."""
 
+from .const import __version__
 from .ntfy import Ntfy
 from .types import (
     Account,
@@ -24,8 +25,6 @@ from .types import (
     ViewAction,
 )
 
-__version__ = "0.0.0"
-
 __all__ = [
     "Account",
     "AccountBilling",
@@ -48,4 +47,5 @@ __all__ = [
     "Sound",
     "Stats",
     "ViewAction",
+    "__version__",
 ]
