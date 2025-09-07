@@ -45,7 +45,9 @@ class Ntfy:
         self._headers = None
 
         if username is not None and password is not None:
-            self._headers = {"Authorization": BasicAuth(username, password).encode()}
+            self._headers = {
+                "Authorization": BasicAuth(username, password, "utf8").encode()
+            }
         elif token is not None:
             self._headers = {"Authorization": f"Bearer {token}"}
 
