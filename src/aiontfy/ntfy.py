@@ -95,7 +95,9 @@ class Ntfy:
         except ClientError as e:
             raise NtfyConnectionError from e
 
-    async def publish(self, message: Message) -> Notification:
+    async def publish(
+        self, message: Message, attachment: bytes | None = None
+    ) -> Notification:
         """Publish a message to an ntfy topic.
 
         Parameters
@@ -115,6 +117,17 @@ class Ntfy:
         NtfyConnectionError
             If a client error occurs during the request.
         """
+
+        if attachment is not None:
+            return Notification.from_json(
+                await self._request(
+                    "PUT",
+                    self.url / message.topic,
+                    headers=message.to_x_headers(),
+                    data=attachment,
+                )
+            )
+
         return Notification.from_json(
             await self._request("POST", self.url, json=message.to_dict())
         )
