@@ -247,7 +247,12 @@ class Message(DataClassORJSONMixin):
             elif isinstance(value, bool):
                 result[mapping[key]] = str(int(value))
             else:
-                result[mapping[key]] = str(value)
+                result[mapping[key]] = (
+                    str(value)
+                    .replace("\\", "\\\\")
+                    .replace("\r", "\\r")
+                    .replace("\n", "\\n")
+                )
 
         return result
 
