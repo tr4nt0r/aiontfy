@@ -1,10 +1,10 @@
 [tool.ruff]
-target-version = "py312"
+target-version = "py314"
 line-length = 88
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001"]
+ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001", "TC003"]
 
 
 [tool.ruff.lint.isort]
@@ -25,7 +25,7 @@ max-complexity = 25
 
 [tool.ruff.lint.per-file-ignores]
 "types.py" = ["N815", "TCH003"]
-"tests/*" = ["SLF001", "S101", "ARG001", "PLR2004", "DTZ001"]
+"tests/*" = ["SLF001", "S101", "ARG001", "PLR2004", "DTZ001", "TC003"]
 "*.ipynb" = ["T201", "ERA001"]
 
 [tool.pytest.ini_options]
