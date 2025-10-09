@@ -55,7 +55,7 @@ dependencies = [
     "mkdocs-material==9.6.17",
     "mkdocstrings[python]==0.30.0",
     "pytest-asyncio==1.1.0",
-    "aiohttp==3.12.15",
+    "aiohttp==3.13.0",
     "ipykernel==6.29.5",
     "pre-commit==4.3.0"
 ]
