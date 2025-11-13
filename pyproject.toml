@@ -79,7 +79,6 @@ docs-build = "mkdocs build"
 [tool.hatch.envs.hatch-test]
 parallel = true
 extra-dependencies = [
-  "pytest==9.0.1",
   "pytest-asyncio==1.2.0",
   "pytest-cov==7.0.0",
 ]
