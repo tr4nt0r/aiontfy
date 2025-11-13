@@ -11,9 +11,9 @@ jobs:
         python_version: ['3.14']
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
       with:
         python-version: ${{ matrix.python_version }}
     - name: Install dependencies
@@ -24,7 +24,7 @@ jobs:
     - name: Test
       run: |
         hatch test --all
-    - uses: codecov/codecov-action@v5
+    - uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
@@ -40,9 +40,9 @@ jobs:
         id-token: write
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
       with:
         python-version: '3.14'
     - name: Install dependencies
@@ -74,7 +74,7 @@ jobs:
         hatch build
         hatch publish
     - name: Create release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
       with:
         draft: true
         body: ${{ github.event.head_commit.message }}
