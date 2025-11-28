@@ -50,7 +50,7 @@ plugins:
         handlers:
             python:
                 paths: [src]
-                import:
+                inventories:
                     - https://docs.python.org/3.12/objects.inv
                 options:
                     docstring_style: numpy
