@@ -50,7 +50,7 @@ python = "3.12"
 dependencies = [
     "mypy==1.19.0",
     "ruff==0.14.8",
-    "pytest==9.0.1",
+    "pytest==9.0.2",
     "pytest-cov==7.0.0",
     "mkdocs-material==9.7.0",
     "mkdocstrings[python]==1.0.0",
