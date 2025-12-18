@@ -49,7 +49,7 @@ path = "src/aiontfy/const.py"
 python = "3.12"
 dependencies = [
     "mypy==1.19.1",
-    "ruff==0.14.9",
+    "ruff==0.14.10",
     "pytest==9.0.2",
     "pytest-cov==7.0.0",
     "mkdocs-material==9.7.1",
@@ -90,7 +90,7 @@ python = ["3.14", "3.13", "3.12"]
 
 [tool.hatch.envs.hatch-static-analysis]
 config-path = "none"
-dependencies = ["ruff==0.14.9"]
+dependencies = ["ruff==0.14.10"]
 
 [build-system]
 requires = ["hatchling", "hatch-regex-commit"]
