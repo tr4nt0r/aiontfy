@@ -94,7 +94,7 @@ asyncio.run(main())
 
 ```
 
-For more advanced usage, refer to the [documentation](https://tr4nt0r.github.io/pynecil).
+For more advanced usage, refer to the [documentation](https://tr4nt0r.github.io/aiontfy).
 
 ---
 

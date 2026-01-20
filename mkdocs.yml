@@ -65,5 +65,7 @@ watch:
 
 nav:
     - About: index.md
+    - Contributing: CONTRIBUTING.md
+    - License: LICENSE.md
     - Reference:
         - aiontfy: reference/aiontfy.md
