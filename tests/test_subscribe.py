@@ -45,6 +45,7 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
             icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
+            sequence_id="Mc3otamDNcpJ",
         )
     )
 
@@ -112,6 +113,7 @@ async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:
             icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
+            sequence_id="Mc3otamDNcpJ",
         )
     )
 
@@ -150,6 +152,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
             icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
+            sequence_id="Mc3otamDNcpJ",
         )
     )
     callback_mock.assert_any_call(
@@ -244,6 +247,7 @@ async def test_subscribe_basic_auth(mock_ws: AsyncMock) -> None:
             icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
+            sequence_id="Mc3otamDNcpJ",
         )
     )
 
@@ -278,5 +282,6 @@ async def test_subscribe_bearer_auth(mock_ws: AsyncMock) -> None:
             icon=URL("https://example.com/icon.png"),
             actions=[],
             attachment=None,
+            sequence_id="Mc3otamDNcpJ",
         )
     )

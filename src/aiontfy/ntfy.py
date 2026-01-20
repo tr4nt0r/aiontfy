@@ -132,6 +132,54 @@ class Ntfy:
             await self._request("POST", self.url, json=message.to_dict())
         )
 
+    async def clear(self, topic: str, sequence_id: str) -> Notification:
+        """Clear a notification.
+
+        Clearing a notification means marking it as read and dismissing it from the notification drawer.
+
+        Parameters
+        ----------
+        topic: str
+            The topic from which to clear a notification.
+        sequence_id: str
+            The sequence-ID to identify the notification to be cleared.
+
+        Raises
+        ------
+        NtfyTimeoutError
+            If a timeout occurs during the request.
+        NtfyConnectionError
+            If a client error occurs during the request.
+        """
+
+        url = self.url / topic / sequence_id / "clear"
+
+        return Notification.from_json(await self._request("PUT", url))
+
+    async def delete(self, topic: str, sequence_id: str) -> Notification:
+        """Delete a notification.
+
+        Deleting a notification means removing it from the notification drawer and from the client's database.
+
+        Parameters
+        ----------
+        topic: str
+            The topic from which to delete a notification.
+        sequence_id: str
+            The sequence-ID to identify the notification to be deleted.
+
+        Raises
+        ------
+        NtfyTimeoutError
+            If a timeout occurs during the request.
+        NtfyConnectionError
+            If a client error occurs during the request.
+        """
+
+        url = self.url / topic / sequence_id
+
+        return Notification.from_json(await self._request("DELETE", url))
+
     async def subscribe(  # noqa: PLR0913
         self,
         topics: list[str],

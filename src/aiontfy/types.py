@@ -159,6 +159,8 @@ class Message(DataClassORJSONMixin):
         E-mail address for e-mail notifications.
     call : str or None, optional
         Phone number to use for voice call.
+    sequence_id: str or None, optional
+        Sequence ID for updating/deleting notifications
 
     """
 
@@ -184,6 +186,7 @@ class Message(DataClassORJSONMixin):
     delay: str | None = None
     email: str | None = None
     call: str | None = None
+    sequence_id: str | None = None
 
     def __post_init__(self) -> None:
         """Post-initialization processing to validate attributes.
@@ -217,6 +220,7 @@ class Message(DataClassORJSONMixin):
             "delay": "X-Delay",
             "email": "X-Email",
             "call": "X-Call",
+            "sequence_id": "X-Sequence-ID",
         }
         data = self.to_dict()
 
@@ -264,6 +268,8 @@ class Event(StrEnum):
     KEEPALIVE = "keepalive"
     MESSAGE = "message"
     POLL_REQUEST = "poll_request"
+    MESSAGE_CLEAR = "message_clear"
+    MESSAGE_DELETE = "message_delete"
 
 
 def timestamp(ts: int) -> datetime:
@@ -310,6 +316,7 @@ class Notification(DataClassORJSONMixin):
     )
     attachment: Attachment | None = None
     content_type: str | None = None
+    sequence_id: str | None = None
 
 
 @dataclass(kw_only=True, frozen=True)

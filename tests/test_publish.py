@@ -38,6 +38,7 @@ async def test_publish_message(mock_session: AsyncMock) -> None:
             "delay": None,
             "email": None,
             "call": None,
+            "sequence_id": None,
         },
     )
 
@@ -72,6 +73,7 @@ async def test_publish_basic_auth(mock_session: AsyncMock) -> None:
             "delay": None,
             "email": None,
             "call": None,
+            "sequence_id": None,
         },
     )
 
@@ -106,5 +108,6 @@ async def test_publish_bearer_auth(mock_session: AsyncMock) -> None:
             "delay": None,
             "email": None,
             "call": None,
+            "sequence_id": None,
         },
     )
