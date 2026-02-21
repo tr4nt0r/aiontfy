@@ -22,6 +22,7 @@ from .types import (
     Response,
     Sound,
     Stats,
+    Version,
     ViewAction,
 )
 
@@ -46,6 +47,7 @@ __all__ = [
     "Response",
     "Sound",
     "Stats",
+    "Version",
     "ViewAction",
     "__version__",
 ]
