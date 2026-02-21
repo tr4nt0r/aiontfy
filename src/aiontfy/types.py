@@ -126,6 +126,26 @@ class ViewAction(DataClassORJSONMixin):
 
 
 @dataclass(kw_only=True, frozen=True)
+class CopyAction(DataClassORJSONMixin):
+    """A copy ntfy action.
+
+    Attributes
+    ----------
+    label : str
+        Label of the action button in the notification.
+    value : Value
+        Value to copy to the clipboard when action is tapped.
+    clear : bool, optional
+        Clear notification after action button is tapped.
+    """
+
+    action: str = field(default="copy", init=False)
+    label: str
+    value: str
+    clear: bool = False
+
+
+@dataclass(kw_only=True, frozen=True)
 class Message(DataClassORJSONMixin):
     """A message to publish to ntfy.
 
@@ -141,7 +161,7 @@ class Message(DataClassORJSONMixin):
         List of tags that may or not map to emojis (https://docs.ntfy.sh/emojis/).
     priority : int or None, optional
         Message priority with 1=min, 3=default and 5=max
-    actions : list[ViewAction or BroadcastAction or HttpAction], optional
+    actions : list[ViewAction or BroadcastAction or HttpAction or CopyAction], optional
         Custom user action buttons for notifications.
     click : URL or None, optional
         Website opened when notification is clicked.
@@ -169,7 +189,7 @@ class Message(DataClassORJSONMixin):
     title: str | None = None
     tags: list[str] = field(default_factory=list)
     priority: int | None = None
-    actions: list[ViewAction | BroadcastAction | HttpAction] = field(
+    actions: list[ViewAction | BroadcastAction | HttpAction | CopyAction] = field(
         default_factory=list
     )
     click: URL | None = field(
