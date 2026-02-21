@@ -356,6 +356,15 @@ class Stats(DataClassORJSONMixin):
 
 
 @dataclass(kw_only=True, frozen=True)
+class Version(DataClassORJSONMixin):
+    """Version response."""
+
+    version: str
+    commit: str
+    date: datetime
+
+
+@dataclass(kw_only=True, frozen=True)
 class Subscription(DataClassORJSONMixin):
     """Subscription information."""
 

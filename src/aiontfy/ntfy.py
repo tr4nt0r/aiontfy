@@ -18,6 +18,7 @@ from .types import (
     Notification,
     Response,
     Stats,
+    Version,
 )
 
 
@@ -396,6 +397,19 @@ class Ntfy:
                 "DELETE", self.url / "v1/account/reservation" / topic, **kwargs
             )
         ).success
+
+    async def version(self) -> Stats:
+        """Get server version (admin-only).
+
+        Returns
+        -------
+        Stats
+            An instance of the `Version` class containing ntfy server version.
+
+
+        """
+
+        return Version.from_json(await self._request("GET", self.url / "v1/version"))
 
     async def close(self) -> None:
         """Close session.
