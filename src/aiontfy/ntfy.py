@@ -398,12 +398,12 @@ class Ntfy:
             )
         ).success
 
-    async def version(self) -> Stats:
+    async def version(self) -> Version:
         """Get server version (admin-only).
 
         Returns
         -------
-        Stats
+        Version
             An instance of the `Version` class containing ntfy server version.
 
 
