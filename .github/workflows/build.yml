@@ -12,12 +12,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-    - name: Set up Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
-      with:
-        python-version: ${{ matrix.python_version }}
-    - name: Install dependencies
-      run: pipx install hatch  --python python${{ matrix.python_version }}
+    - name: Install Hatch
+      uses: pypa/hatch@install
     - name: Lint and typecheck
       run: |
         hatch fmt --check
@@ -41,14 +37,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-    - name: Set up Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
-      with:
-        python-version: '3.14'
-    - name: Install dependencies
-      shell: bash
-      run: |
-        pipx install hatch  --python python3.14
+    - name: Install Hatch
+      uses: pypa/hatch@install
     - name: mint API token
       id: mint-token
       run: |
