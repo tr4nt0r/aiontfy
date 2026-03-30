@@ -361,7 +361,7 @@ class Version(DataClassORJSONMixin):
 
     version: str
     commit: str
-    date: datetime
+    date: str
 
 
 @dataclass(kw_only=True, frozen=True)
