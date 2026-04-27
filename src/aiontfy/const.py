@@ -1,6 +1,6 @@
 """Constants for aiontfy."""
 
-__version__ = "0.8.4"
+__version__ = "0.8.5"
 
 MIN_PRIORITY = 1
 MAX_PRIORITY = 5
