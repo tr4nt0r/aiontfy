@@ -26,6 +26,10 @@
             "last_access": 1743362634,
             "last_origin": "172.17.0.1",
             "expires": 1743621234
+        },
+        {
+            "token": "tk_yyyyyyyyyyyyyyyyyyyyyyyyyy",
+            "label": "test"
         }
     ],
     "tier": {

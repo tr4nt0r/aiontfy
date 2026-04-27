@@ -388,7 +388,9 @@ class AccountTokenResponse(DataClassORJSONMixin):
 
     token: str
     label: str | None = None
-    last_access: datetime = field(metadata=field_options(deserialize=timestamp))
+    last_access: datetime | None = field(
+        default=None, metadata=field_options(deserialize=timestamp)
+    )
     last_origin: str | None = None
     expires: datetime | None = field(
         default=None, metadata=field_options(deserialize=timestamp)
