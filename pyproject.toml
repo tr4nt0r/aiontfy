@@ -56,7 +56,7 @@ dependencies = [
     "mkdocstrings[python]==1.0.6",
     "pytest-asyncio==1.4.0",
     "aiohttp==3.14.2",
-    "pre-commit==4.6.0"
+    "pre-commit==4.6.1"
 ]
 
 [tool.hatch.envs.default.scripts]
