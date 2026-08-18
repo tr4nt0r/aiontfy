@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
     - name: Install Hatch
-      uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+      uses: pypa/hatch@f647ed70d49adb885f53a27d1c7f5bdaeacf2c60 # install
     - name: Lint and typecheck
       run: |
         hatch fmt --check
@@ -38,7 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
     - name: Install Hatch
-      uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+      uses: pypa/hatch@f647ed70d49adb885f53a27d1c7f5bdaeacf2c60 # install
     - name: mint API token
       id: mint-token
       run: |
