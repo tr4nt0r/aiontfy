@@ -181,7 +181,7 @@ class Ntfy:
 
         return Notification.from_json(await self._request("DELETE", url))
 
-    async def subscribe(  # noqa: PLR0913
+    async def subscribe(  # noqa: PLR0913, PLR0917
         self,
         topics: list[str],
         callback: Callable[[Notification], None],
