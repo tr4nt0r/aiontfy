@@ -4,7 +4,7 @@ line-length = 88
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001", "TC003"]
+ignore = ["TRY003","D202","D203", "D213", "D417", "ANN003",  "E501", "COM812", "ISC001", "TC003", "CPY"]
 
 
 [tool.ruff.lint.isort]
@@ -49,7 +49,7 @@ path = "src/aiontfy/const.py"
 python = "3.12"
 dependencies = [
     "mypy==2.3.1",
-    "ruff==0.15.22",
+    "ruff==0.16.5",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "mkdocs-material==9.7.7",
@@ -90,7 +90,7 @@ python = ["3.14", "3.13", "3.12"]
 
 [tool.hatch.envs.hatch-static-analysis]
 config-path = "none"
-dependencies = ["ruff==0.15.22"]
+dependencies = ["ruff==0.16.5"]
 
 [build-system]
 requires = ["hatchling", "hatch-regex-commit"]
