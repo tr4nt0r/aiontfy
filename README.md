@@ -117,4 +117,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## ❤️ Support
 
-If you find this project useful, consider [buying me a coffee ☕](https://www.buymeacoffee.com/tr4nt0r) or [sponsoring me on GitHub](https://github.com/sponsors/tr4nt0r)!
+If you find this project useful, consider [sponsoring me on GitHub](https://github.com/sponsors/tr4nt0r)!
