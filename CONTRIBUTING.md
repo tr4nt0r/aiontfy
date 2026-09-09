@@ -80,7 +80,7 @@ We use [Hatch](https://hatch.pypa.io/latest/install/) to manage the development 
 You can run all the tests with:
 
 ```bash
-hatch run test
+hatch test
 ```
 
 ### Format the code
@@ -88,7 +88,8 @@ hatch run test
 Execute the following command to apply linting and check typing:
 
 ```bash
-hatch run lint
+hatch check code
+hatch check fmt
 ```
 
 ### Publish a new version
