@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 
 from yarl import URL
 
-from aiontfy import Event, Notification, Ntfy
+from aiontfy import Event, Notification, Ntfy, Priority
 
 from .conftest import MSG_DELETE
 
@@ -31,7 +31,7 @@ async def test_delete_message(mock_session: AsyncMock) -> None:
         message="Hello",
         title="Title",
         tags=["octopus"],
-        priority=3,
+        priority=Priority.DEFAULT,
         click=URL("https://example.com/"),
         icon=URL("https://example.com/icon.png"),
         actions=[],
