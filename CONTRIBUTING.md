@@ -90,6 +90,7 @@ Execute the following command to apply linting and check typing:
 ```bash
 hatch check code
 hatch check fmt
+hatch check types
 ```
 
 ### Publish a new version
@@ -129,5 +130,5 @@ Before you submit a pull request, check that it meets these guidelines:
 You can serve the Mkdocs documentation with:
 
 ```bash
-hatch run docs-serve
+hatch run docs:serve
 ```
