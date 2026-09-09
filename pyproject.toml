@@ -59,22 +59,16 @@ dependencies = [
     "pre-commit==4.6.2"
 ]
 
-[tool.hatch.envs.default.scripts]
-test = "pytest"
-test-cov-xml = "pytest --cov-report=xml"
-lint = [
-  "ruff format .",
-  "ruff --fix .",
-  "mypy aiontfy/",
+[tool.hatch.envs.docs]
+detached = true
+dependencies = [
+    "mkdocs-material==9.7.7",
+    "mkdocstrings[python]==1.0.6",
 ]
-lint-check = [
-  "ruff format --check .",
-  "ruff check .",
-  "mypy src/aiontfy/",
-]
-docs-serve = "mkdocs serve"
-docs-build = "mkdocs build"
 
+[tool.hatch.envs.docs.scripts]
+serve = "mkdocs serve"
+build = "mkdocs build"
 
 [tool.hatch.envs.hatch-test]
 parallel = true
