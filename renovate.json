@@ -12,6 +12,9 @@
     "poetry": {
         "enabled": false
     },
+    "pre-commit": {
+        "enabled": true
+    },
     "packageRules": [
         {
             "matchManagers": ["pep621"],
