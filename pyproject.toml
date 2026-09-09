@@ -101,8 +101,7 @@ config-path = "none"
 dependencies = ["ruff==0.16.6"]
 
 [tool.hatch.envs.hatch-check-types]
-config-path = "pyrefly.toml"
-dependencies = ["pyrefly==1.2.0"]
+dependencies = ["pyrefly==1.2.0", "pytest==9.1.1"]
 
 [build-system]
 requires = ["hatchling", "hatch-regex-commit"]
@@ -110,6 +109,11 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/aiontfy"]
+
+[tool.pyrefly]
+project-includes = ["src/", "tests/"]
+search-path = ["."]
+
 
 [project]
 name = "aiontfy"
