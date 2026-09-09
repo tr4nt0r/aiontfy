@@ -11,13 +11,14 @@
     "python.testing.cwd": "${workspaceFolder}",
     "python.testing.pytestArgs": ["--no-cov"],
     "[python]": {
-      "editor.formatOnSave": true,
-      "editor.codeActionsOnSave": {
-        "source.fixAll": "explicit",
-        "source.organizeImports": "explicit"
-      },
-      "editor.defaultFormatter": "charliermarsh.ruff"
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff"
     },
     "python.analysis.generateWithTypeAnnotation": true,
-    "markdown.validate.enabled": true
-  }
+    "markdown.validate.enabled": true,
+    "python-envs.defaultEnvManager": "ms-python.python:system"
+}

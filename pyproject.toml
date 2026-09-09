@@ -92,6 +92,18 @@ python = ["3.14", "3.13", "3.12"]
 config-path = "none"
 dependencies = ["ruff==0.16.6"]
 
+[tool.hatch.envs.hatch-check-code]
+config-path = "none"
+dependencies = ["ruff==0.16.6"]
+
+[tool.hatch.envs.hatch-check-fmt]
+config-path = "none"
+dependencies = ["ruff==0.16.6"]
+
+[tool.hatch.envs.hatch-check-types]
+config-path = "pyrefly.toml"
+dependencies = ["pyrefly==1.2.0"]
+
 [build-system]
 requires = ["hatchling", "hatch-regex-commit"]
 build-backend = "hatchling.build"
