@@ -7,7 +7,7 @@ from aiohttp import ClientError, WSMsgType
 import pytest
 from yarl import URL
 
-from aiontfy import Event, Notification, Ntfy
+from aiontfy import Event, Notification, Ntfy, Priority
 from aiontfy.exceptions import (
     NtfyConnectionError,
     NtfyForbiddenAccessError,
@@ -40,7 +40,7 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
             message="Hello",
             title="Title",
             tags=["octopus"],
-            priority=3,
+            priority=Priority.DEFAULT,
             click=URL("https://example.com/"),
             icon=URL("https://example.com/icon.png"),
             actions=[],
@@ -108,7 +108,7 @@ async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:
             message="Hello",
             title="Title",
             tags=["octopus"],
-            priority=3,
+            priority=Priority.DEFAULT,
             click=URL("https://example.com/"),
             icon=URL("https://example.com/icon.png"),
             actions=[],
@@ -147,7 +147,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
             message="Hello",
             title="Title",
             tags=["octopus"],
-            priority=3,
+            priority=Priority.DEFAULT,
             click=URL("https://example.com/"),
             icon=URL("https://example.com/icon.png"),
             actions=[],
@@ -165,7 +165,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
             message="World",
             title="Title",
             tags=["octopus"],
-            priority=5,
+            priority=Priority.MAX,
             click=URL("https://example.com/"),
             icon=None,
             actions=[],
@@ -179,7 +179,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
     [(TimeoutError, NtfyTimeoutError), (ClientError, NtfyConnectionError)],
 )
 async def test_subscribe_exceptions(
-    mock_ws: AsyncMock, exception: Exception, expected_exception: Exception
+    mock_ws: AsyncMock, exception: Exception, expected_exception: type[Exception]
 ) -> None:
     """Test timeout error during subscription."""
 
@@ -242,7 +242,7 @@ async def test_subscribe_basic_auth(mock_ws: AsyncMock) -> None:
             message="Hello",
             title="Title",
             tags=["octopus"],
-            priority=3,
+            priority=Priority.DEFAULT,
             click=URL("https://example.com/"),
             icon=URL("https://example.com/icon.png"),
             actions=[],
@@ -277,7 +277,7 @@ async def test_subscribe_bearer_auth(mock_ws: AsyncMock) -> None:
             message="Hello",
             title="Title",
             tags=["octopus"],
-            priority=3,
+            priority=Priority.DEFAULT,
             click=URL("https://example.com/"),
             icon=URL("https://example.com/icon.png"),
             actions=[],
