@@ -48,7 +48,7 @@ path = "src/aiontfy/const.py"
 [tool.hatch.envs.default]
 python = "3.14"
 dependencies = [
-    "ruff==0.16.6",
+    "ruff==0.16.7",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "mkdocs-material==9.7.7",
@@ -84,15 +84,15 @@ python = ["3.14", "3.13", "3.12"]
 
 [tool.hatch.envs.hatch-static-analysis]
 config-path = "none"
-dependencies = ["ruff==0.16.6"]
+dependencies = ["ruff==0.16.7"]
 
 [tool.hatch.envs.hatch-check-code]
 config-path = "none"
-dependencies = ["ruff==0.16.6"]
+dependencies = ["ruff==0.16.7"]
 
 [tool.hatch.envs.hatch-check-fmt]
 config-path = "none"
-dependencies = ["ruff==0.16.6"]
+dependencies = ["ruff==0.16.7"]
 
 [tool.hatch.envs.hatch-check-types]
 dependencies = ["pyrefly==1.2.0", "pytest==9.1.1"]
