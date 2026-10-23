@@ -236,7 +236,7 @@ class Ntfy:
 
         try:
             async with self._session.ws_connect(
-                url, params=params, headers=self._headers
+                url, params=params, headers=self._headers, heartbeat=60
             ) as ws:
                 async for msg in ws:
                     if msg.type == WSMsgType.TEXT:
@@ -248,7 +248,7 @@ class Ntfy:
                     ):
                         break
                     elif msg.type == WSMsgType.ERROR:
-                        continue
+                        raise NtfyConnectionError from msg.data
         except TimeoutError as e:
             raise NtfyTimeoutError from e
         except ClientError as e:

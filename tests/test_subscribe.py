@@ -27,7 +27,7 @@ async def test_subscribe_success(mock_ws: AsyncMock) -> None:
     await ntfy.subscribe(["test1"], callback_mock)
 
     mock_ws.ws_connect.assert_called_once_with(
-        URL("wss://example.com/test1/ws"), params={}, headers=None
+        URL("wss://example.com/test1/ws"), params={}, headers=None, heartbeat=60
     )
     callback_mock.assert_called_once()
     callback_mock.assert_called_with(
@@ -96,6 +96,7 @@ async def test_subscribe_with_filters(mock_ws: AsyncMock) -> None:
             "priority": "3",
         },
         headers=None,
+        heartbeat=60,
     )
     callback_mock.assert_called_once()
     callback_mock.assert_called_with(
@@ -134,7 +135,7 @@ async def test_subscribe_multiple_topics(mock_ws: AsyncMock) -> None:
     await ntfy.subscribe(["test1", "test2"], callback_mock)
 
     mock_ws.ws_connect.assert_called_once_with(
-        URL("wss://example.com/test1,test2/ws"), params={}, headers=None
+        URL("wss://example.com/test1,test2/ws"), params={}, headers=None, heartbeat=60
     )
     assert callback_mock.call_count == 2
     callback_mock.assert_any_call(
@@ -193,12 +194,26 @@ async def test_subscribe_exceptions(
         await ntfy.subscribe(["test"], callback_mock)
 
 
+async def test_subscribe_ws_error(mock_ws: AsyncMock) -> None:
+    """Test websocket error during subscription."""
+
+    mock_ws.ws_connect.return_value.__aenter__.return_value.__aiter__.return_value = [
+        MagicMock(type=WSMsgType.ERROR, data=Exception("WebSocket error")),
+    ]
+    callback_mock = MagicMock()
+
+    ntfy = Ntfy("https://example.com", mock_ws)
+
+    with pytest.raises(NtfyConnectionError):
+        await ntfy.subscribe(["test"], callback_mock)
+
+
 @pytest.mark.parametrize(
     "ws_msg_type",
-    [WSMsgType.ERROR, WSMsgType.CLOSE, WSMsgType.CLOSING, WSMsgType.CLOSED],
+    [WSMsgType.CLOSE, WSMsgType.CLOSING, WSMsgType.CLOSED],
 )
-async def test_subscribe_ws_errors(mock_ws: AsyncMock, ws_msg_type: WSMsgType) -> None:
-    """Test handling of websocket error messages."""
+async def test_subscribe_ws_closing(mock_ws: AsyncMock, ws_msg_type: WSMsgType) -> None:
+    """Test handling of websocket closing errors."""
 
     mock_ws.ws_connect.return_value.__aenter__.return_value.__aiter__.return_value = [
         MagicMock(type=ws_msg_type),
@@ -212,7 +227,7 @@ async def test_subscribe_ws_errors(mock_ws: AsyncMock, ws_msg_type: WSMsgType) -
     await ntfy.subscribe(["test"], callback_mock)
 
     mock_ws.ws_connect.assert_called_once_with(
-        URL("wss://example.com/test/ws"), params={}, headers=None
+        URL("wss://example.com/test/ws"), params={}, headers=None, heartbeat=60
     )
     callback_mock.assert_not_called()
 
@@ -230,6 +245,7 @@ async def test_subscribe_basic_auth(mock_ws: AsyncMock) -> None:
         URL("wss://example.com/test1/ws"),
         params={},
         headers={"Authorization": "Basic dXNlcjpwYXNz"},
+        heartbeat=60,
     )
     callback_mock.assert_called_once()
     callback_mock.assert_called_with(
@@ -265,6 +281,7 @@ async def test_subscribe_bearer_auth(mock_ws: AsyncMock) -> None:
         URL("wss://example.com/test1/ws"),
         params={},
         headers={"Authorization": "Bearer dXNlcjpwYXNz"},
+        heartbeat=60,
     )
     callback_mock.assert_called_once()
     callback_mock.assert_called_with(
