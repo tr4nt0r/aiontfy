@@ -51,7 +51,7 @@ dependencies = [
     "ruff==0.17.2",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
-    "mkdocs-material==9.7.7",
+    "mkdocs-material==9.8.0",
     "mkdocstrings[python]==1.0.8",
     "pytest-asyncio==1.4.0",
     "aiohttp==3.14.5",
@@ -62,7 +62,7 @@ dependencies = [
 [tool.hatch.envs.docs]
 detached = true
 dependencies = [
-    "mkdocs-material==9.7.7",
+    "mkdocs-material==9.8.0",
     "mkdocstrings[python]==1.0.8",
 ]
 
