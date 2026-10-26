@@ -53,7 +53,7 @@ dependencies = [
     "pytest-cov==7.1.0",
     "mkdocs-material==9.8.0",
     "mkdocstrings[python]==1.0.8",
-    "pytest-asyncio==1.4.0",
+    "pytest-asyncio==1.4.1",
     "aiohttp==3.14.5",
     "prek==0.5.7",
     "pyrefly==1.4.0",
@@ -73,7 +73,7 @@ build = "mkdocs build"
 [tool.hatch.envs.hatch-test]
 parallel = true
 extra-dependencies = [
-  "pytest-asyncio==1.4.0",
+  "pytest-asyncio==1.4.1",
   "pytest-cov==7.1.0",
 ]
 extra-args = ["--cov-report=xml", "-vv"]
