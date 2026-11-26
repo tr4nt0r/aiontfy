@@ -55,7 +55,7 @@ dependencies = [
     "mkdocstrings[python]==1.0.8",
     "pytest-asyncio==1.5.0",
     "aiohttp==3.14.5",
-    "prek==0.5.11",
+    "prek==0.5.12",
     "pyrefly==1.5.0",
 ]
 
